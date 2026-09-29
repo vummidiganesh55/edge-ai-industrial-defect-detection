@@ -1,0 +1,14 @@
+category: bottle
+
+device: cpu
+
+production:
+  anomaly_threshold: 17.364517
+
+decision:
+  normal_label: NORMAL
+  defect_label: DEFECT
+
+risk:
+  low_max: 1.0
+  medium_max: 2.0

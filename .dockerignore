@@ -1,0 +1,44 @@
+# PYTHON
+__pycache__/
+*.py[cod]
+*.pyo
+
+# VIRTUAL ENVIRONMENTS
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# GIT
+.git/
+.gitignore
+
+# CACHE
+.cache/
+huggingface/
+
+# MODEL ARTIFACTS
+models/
+checkpoints/
+*.bin
+*.safetensors
+
+# GENERATED OUTPUTS
+outputs/
+runs/
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# DATASET
+data/*
+!data/
+!data/mvtec_anomaly_detection/
+!data/mvtec_anomaly_detection/bottle/
+!data/mvtec_anomaly_detection/bottle/train/
+!data/mvtec_anomaly_detection/bottle/train/good/

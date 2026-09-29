@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Dataset
+data/
+
+# Model artifacts
+models/
+*.onnx
+*.engine
+*.bin
+*.pt
+*.pth
+*.safetensors
+
+# Generated outputs
+outputs/
+runs/
+logs/
+
+# Cache
+.cache/
+huggingface/
+
+# OS
+.DS_Store
+Thumbs.db
