@@ -1,13 +1,3 @@
-Absolutely. Based on your completed **Edge-Deployed Real-Time Industrial Defect Detection** project and the results you shared, here is a **GitHub-ready README** following your exact structure.
-
-You can copy-paste this directly into `README.md`.
-
-> **Screenshot setup:** create a folder such as `docs/results/` in your repository and place the uploaded result screenshots there using these filenames:
-> `cpu_baseline.png`, `failure_analysis.png`, `fp32_vs_fp16.png`, `fp32_vs_int8.png`, `monitoring_drift.png`, `ONNX_runtime.png`, `OPENVIO_result.png`, `patchcore_metrics.png`, `pixel_evaluation.png`, `pro_eval.png`, `py_test.png`.
-
----
-
-````markdown
 # 🚀 Edge-Deployed Real-Time Industrial Defect Detection
 
 ## ⭐ Badges
