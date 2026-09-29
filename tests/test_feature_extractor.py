@@ -5,8 +5,7 @@ from src.preprocessing import get_train_transform
 from src.feature_extractor import ResNet18FeatureExtractor
 
 
-def main():
-
+def test_feature_extractor_output():
     dataset = MVTecDataset(
         root_dir="data/mvtec_anomaly_detection",
         category="bottle",
@@ -15,7 +14,6 @@ def main():
     )
 
     sample = dataset[0]
-
     image = sample["image"].unsqueeze(0)
 
     model = ResNet18FeatureExtractor()
@@ -23,24 +21,18 @@ def main():
     with torch.no_grad():
         features = model(image)
 
-    print("=" * 60)
-    print("Feature Extractor Test")
-    print("=" * 60)
-
-    print(f"Input shape : {image.shape}")
-
-    for name, feature in features.items():
-        print(
-            f"{name:10s}: "
-            f"shape={tuple(feature.shape)}, "
-            f"dtype={feature.dtype}"
-        )
-
+    # Required feature levels
     assert "layer2" in features
     assert "layer3" in features
 
-    print("\nFeature extractor test PASSED.")
+    # Features must contain tensors
+    assert isinstance(features["layer2"], torch.Tensor)
+    assert isinstance(features["layer3"], torch.Tensor)
 
+    # Batch dimension must match input batch size
+    assert features["layer2"].shape[0] == image.shape[0]
+    assert features["layer3"].shape[0] == image.shape[0]
 
-if __name__ == "__main__":
-    main()
+    # Feature maps must have spatial dimensions
+    assert features["layer2"].ndim == 4
+    assert features["layer3"].ndim == 4

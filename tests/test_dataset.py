@@ -4,8 +4,7 @@ from src.dataset import MVTecDataset
 DATASET_ROOT = "data/mvtec_anomaly_detection"
 
 
-def main():
-
+def test_mvtec_dataset_loading():
     train_dataset = MVTecDataset(
         root_dir=DATASET_ROOT,
         category="bottle",
@@ -18,25 +17,26 @@ def main():
         split="test",
     )
 
-    print("=" * 60)
-    print("MVTec AD Dataset Test")
-    print("=" * 60)
+    # Dataset should contain samples
+    assert len(train_dataset) > 0
+    assert len(test_dataset) > 0
 
-    print(f"Category      : bottle")
-    print(f"Train samples : {len(train_dataset)}")
-    print(f"Test samples  : {len(test_dataset)}")
-
+    # Inspect one training sample
     sample = train_dataset[0]
 
-    print("\nFirst training sample:")
-    print(f"Image type    : {type(sample['image'])}")
-    print(f"Image size    : {sample['image'].size}")
-    print(f"Label         : {sample['label']}")
-    print(f"Defect type   : {sample['defect_type']}")
-    print(f"Path          : {sample['path']}")
+    # Required fields
+    assert "image" in sample
+    assert "label" in sample
+    assert "defect_type" in sample
+    assert "path" in sample
 
-    print("\nDataset test PASSED.")
+    # Basic image validation
+    assert sample["image"] is not None
+    assert sample["image"].size[0] > 0
+    assert sample["image"].size[1] > 0
 
+    # Label should be valid
+    assert sample["label"] in [0, 1]
 
-if __name__ == "__main__":
-    main()
+    # Path should exist
+    assert sample["path"]

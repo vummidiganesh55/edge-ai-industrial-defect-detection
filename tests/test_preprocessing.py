@@ -4,8 +4,7 @@ from src.dataset import MVTecDataset
 from src.preprocessing import get_train_transform
 
 
-def main():
-
+def test_preprocessing_output():
     dataset = MVTecDataset(
         root_dir="data/mvtec_anomaly_detection",
         category="bottle",
@@ -14,24 +13,16 @@ def main():
     )
 
     sample = dataset[0]
-
     image = sample["image"]
 
-    print("=" * 60)
-    print("Preprocessing Test")
-    print("=" * 60)
-
-    print(f"Tensor type : {type(image)}")
-    print(f"Shape       : {image.shape}")
-    print(f"Dtype       : {image.dtype}")
-    print(f"Min value   : {image.min().item():.4f}")
-    print(f"Max value   : {image.max().item():.4f}")
-
+    # Output must be a PyTorch tensor
     assert isinstance(image, torch.Tensor)
+
+    # ResNet preprocessing should produce 3-channel 224x224 input
     assert image.shape == (3, 224, 224)
 
-    print("\nPreprocessing test PASSED.")
+    # Tensor should contain valid numeric values
+    assert torch.isfinite(image).all()
 
-
-if __name__ == "__main__":
-    main()
+    # Image must not be empty
+    assert image.numel() > 0

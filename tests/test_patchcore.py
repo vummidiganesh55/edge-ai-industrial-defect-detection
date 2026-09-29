@@ -6,8 +6,7 @@ from src.feature_extractor import ResNet18FeatureExtractor
 from src.patchcore import PatchCore
 
 
-def main():
-
+def test_patchcore_fit():
     dataset = MVTecDataset(
         root_dir="data/mvtec_anomaly_detection",
         category="bottle",
@@ -23,43 +22,27 @@ def main():
 
     feature_batches = []
 
-    print("=" * 60)
-    print("PatchCore Test")
-    print("=" * 60)
-
-    # Use a few images first.
+    # Use a few normal training images
     for index in range(3):
-
         image = dataset[index]["image"]
-
         image = image.unsqueeze(0)
 
         with torch.no_grad():
+            features = feature_extractor(image)
 
-            features = feature_extractor(
-                image
-            )
+        feature_batches.append(features)
 
-        feature_batches.append(
-            features
-        )
+    # Fit PatchCore memory bank
+    patchcore.fit(feature_batches)
 
-        print(
-            f"Processed training image "
-            f"{index + 1}/3"
-        )
+    # Memory bank must be created
+    assert patchcore.memory_bank is not None
 
-    patchcore.fit(
-        feature_batches
-    )
+    # Memory bank must contain feature vectors
+    assert patchcore.memory_bank.ndim == 2
 
-    print(
-        "\nMemory bank shape:",
-        patchcore.memory_bank.shape
-    )
+    # Sampling should produce at least one feature
+    assert patchcore.memory_bank.shape[0] > 0
 
-    print("\nPatchCore test PASSED.")
-
-
-if __name__ == "__main__":
-    main()
+    # Feature dimension should match PatchCore feature representation
+    assert patchcore.memory_bank.shape[1] > 0
